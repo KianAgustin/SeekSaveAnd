@@ -1,0 +1,28 @@
+[2026-10-29 12:17:14] local.ERROR: The C:\Users\Admin\OneDrive\Desktop\SeekSaveAnd-v2-fixed\SeekSaveAnd-v2\bootstrap\cache directory must be present and writable. {"exception":"[object] (Exception(code: 0): The C:\\Users\\Admin\\OneDrive\\Desktop\\SeekSaveAnd-v2-fixed\\SeekSaveAnd-v2\\bootstrap\\cache directory must be present and writable. at C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php:179)
+[stacktrace]
+#0 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(132): Illuminate/Foundation/PackageManifest->write(Array)
+#1 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(108): Illuminate/Foundation/PackageManifest->build()
+#2 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(90): Illuminate/Foundation/PackageManifest->getManifest()
+#3 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(79): Illuminate/Foundation/PackageManifest->config('aliases')
+#4 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterFacades.php(26): Illuminate/Foundation/PackageManifest->aliases()
+#5 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterFacades->bootstrap(Object(Illuminate/Foundation/Application))
+#6 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(507): Illuminate/Foundation/Application->bootstrapWith(Array)
+#7 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#8 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#9 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/artisan(15): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#10 {main}
+"} 
+[2026-10-29 12:30:07] local.ERROR: The C:\Users\Admin\OneDrive\Desktop\SeekSaveAnd-v2-fixed\SeekSaveAnd-v2\C:\Users\Admin\AppData\Local\Temp\SeekSaveAnd-cache directory must be present and writable. {"exception":"[object] (Exception(code: 0): The C:\\Users\\Admin\\OneDrive\\Desktop\\SeekSaveAnd-v2-fixed\\SeekSaveAnd-v2\\C:\\Users\\Admin\\AppData\\Local\\Temp\\SeekSaveAnd-cache directory must be present and writable. at C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php:179)
+[stacktrace]
+#0 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(132): Illuminate/Foundation/PackageManifest->write(Array)
+#1 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(108): Illuminate/Foundation/PackageManifest->build()
+#2 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(90): Illuminate/Foundation/PackageManifest->getManifest()
+#3 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(79): Illuminate/Foundation/PackageManifest->config('aliases')
+#4 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterFacades.php(26): Illuminate/Foundation/PackageManifest->aliases()
+#5 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterFacades->bootstrap(Object(Illuminate/Foundation/Application))
+#6 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(507): Illuminate/Foundation/Application->bootstrapWith(Array)
+#7 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#8 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#9 C:/Users/Admin/OneDrive/Desktop/SeekSaveAnd-v2-fixed/SeekSaveAnd-v2/artisan(15): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#10 {main}
+"} 
