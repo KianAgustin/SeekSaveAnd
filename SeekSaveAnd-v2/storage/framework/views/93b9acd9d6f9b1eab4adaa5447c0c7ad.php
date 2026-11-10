@@ -7,4 +7,4 @@
   <circle cx="87" cy="59" r="31" stroke="#000" stroke-width="7.5"/>
   <line x1="109" y1="81" x2="129" y2="102" stroke="#000" stroke-width="11" stroke-linecap="round"/>
 </svg>
-<?php /**PATH C:\Users\Admin\OneDrive\Desktop\SeekSaveAnd-v2-fixed\SeekSaveAnd-v2\resources\views/partials/logo.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\STUDENT\Documents\SEEKSAVEAND\SeekSaveAnd\SeekSaveAnd-v2\resources\views/partials/logo.blade.php ENDPATH**/ ?>

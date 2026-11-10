@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('title', 'Sign in'); ?>
 <?php $__env->startSection('content'); ?>
     <h1 class="auth-title">SeekSaveAnd</h1>
@@ -32,4 +33,4 @@ unset($__errorArgs, $__bag); ?>
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.guest', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Admin\OneDrive\Desktop\SeekSaveAnd-v2-fixed\SeekSaveAnd-v2\resources\views/auth/login.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.guest', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\STUDENT\Documents\SEEKSAVEAND\SeekSaveAnd\SeekSaveAnd-v2\resources\views/auth/login.blade.php ENDPATH**/ ?>

@@ -15,4 +15,4 @@
         <div class="card-meta"><?php echo e($item->created_at->diffForHumans()); ?></div>
     </div>
 </a>
-<?php /**PATH C:\Users\Admin\OneDrive\Desktop\SeekSaveAnd-v2-fixed\SeekSaveAnd-v2\resources\views/partials/item-card.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\STUDENT\Documents\SEEKSAVEAND\SeekSaveAnd\SeekSaveAnd-v2\resources\views/partials/item-card.blade.php ENDPATH**/ ?>

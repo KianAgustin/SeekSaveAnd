@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('title', 'Home'); ?>
 <?php $__env->startSection('content'); ?>
 <section class="hero">
@@ -45,4 +46,4 @@
 <a class="btn fab" href="<?php echo e(route('items.create', ['type' => $type === 'found' ? 'found' : 'lost'])); ?>">+ Report an item</a>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Admin\OneDrive\Desktop\SeekSaveAnd-v2-fixed\SeekSaveAnd-v2\resources\views/items/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\STUDENT\Documents\SEEKSAVEAND\SeekSaveAnd\SeekSaveAnd-v2\resources\views/items/index.blade.php ENDPATH**/ ?>
