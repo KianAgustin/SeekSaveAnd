@@ -28,9 +28,11 @@ class AuthController extends Controller
             ]);
         }
 
-        return Socialite::driver('microsoft')->redirect();
+        return Socialite::driver('microsoft')
+            ->with(['prompt' => 'select_account'])
+            ->redirect();
     }
-
+    
     public function handleMicrosoftCallback(Request $request): RedirectResponse
     {
         try {
