@@ -11,6 +11,9 @@ use App\Http\Middleware\EnsureAdmin;
 use App\Http\Middleware\EnsureProfileCompleted;
 use Illuminate\Support\Facades\Route;
 
+// ---- Public info ----
+Route::view('/about', 'about')->name('about');
+
 // ---- Not signed in ----
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -42,6 +45,7 @@ Route::middleware(['auth', EnsureProfileCompleted::class])->group(function () {
     Route::post('/items/{item}/reopen', [ItemController::class, 'reopen'])->name('items.reopen');
     Route::post('/items/{item}/save', [ItemController::class, 'toggleSave'])->name('items.save');
 
+    // Proof / contact form (replaces direct messaging for new contacts)
     Route::post('/items/{item}/claim', [ClaimController::class, 'store'])->name('claims.store');
     Route::post('/claims/{claim}/approve', [ClaimController::class, 'approve'])->name('claims.approve');
     Route::post('/claims/{claim}/reject', [ClaimController::class, 'reject'])->name('claims.reject');
@@ -57,6 +61,8 @@ Route::middleware(['auth', EnsureProfileCompleted::class])->group(function () {
     // ---- Admin only ----
     Route::middleware(EnsureAdmin::class)->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::get('/guided', [AdminController::class, 'guided'])->name('guided');
+        Route::post('/conversations/{conversation}/schedule', [AdminController::class, 'setSchedule'])->name('schedule');
         Route::get('/users', [AdminController::class, 'users'])->name('users');
         Route::post('/users/{user}/role', [AdminController::class, 'toggleRole'])->name('users.role');
     });

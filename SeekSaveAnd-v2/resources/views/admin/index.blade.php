@@ -5,6 +5,7 @@
     <h1>Admin dashboard</h1>
     <div class="subnav">
         <a href="{{ route('admin.index') }}" class="on">All posts</a>
+        <a href="{{ route('admin.guided') }}">Guided chats</a>
         <a href="{{ route('admin.users') }}">Users</a>
     </div>
 
@@ -18,27 +19,33 @@
         <input class="input" style="flex:1 1 220px;width:auto" type="search" name="q" value="{{ $q }}" placeholder="Search title, location, name or email">
         <select class="input" style="width:auto" name="type">
             <option value="">Lost &amp; Found</option>
-            <option value="lost" @selected($type === 'lost')>Lost</option>
-            <option value="found" @selected($type === 'found')>Found</option>
+            <option value="lost" @selected($type === 'lost')>SEEKING</option>
+            <option value="found" @selected($type === 'found')>SAVING</option>
         </select>
         <select class="input" style="width:auto" name="status">
             <option value="">Any status</option>
             <option value="open" @selected($status === 'open')>Open</option>
-            <option value="resolved" @selected($status === 'resolved')>Resolved</option>
+            <option value="resolved" @selected($status === 'resolved')>SAVED</option>
         </select>
         <button class="btn inline" type="submit">Filter</button>
     </form>
 
     <div class="table-wrap">
         <table>
-            <thead><tr><th>Item</th><th>Type</th><th>Location</th><th>Posted by</th><th>Status</th><th>Claims</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Item</th><th>Type</th><th>Location</th><th>Posted by</th><th>Status</th><th>Claims</th><th>Guidance</th><th>Actions</th></tr></thead>
             <tbody>
             @forelse ($items as $item)
                 <tr>
                     <td>
                         <div class="row" style="flex-wrap:nowrap">
-                            <div class="thumb">@if ($item->photoUrl()) <img src="{{ $item->photoUrl() }}" alt=""> @else {{ $item->icon() }} @endif</div>
-                            <a href="{{ route('items.show', $item) }}"><strong>{{ $item->title }}</strong></a>
+                            <div class="thumb thumb--avatar">
+                                @if ($item->user->avatarUrl())
+                                    <img src="{{ $item->user->avatarUrl() }}" alt="">
+                                @else
+                                    {{ $item->user->initials() }}
+                                @endif
+                            </div>
+                            <a href="{{ route('items.show', $item) }}"><strong>{{ $item->category }}</strong><div class="muted">{{ $item->title }}</div></a>
                         </div>
                     </td>
                     <td><span class="badge {{ $item->isLost() ? 'rejected' : 'approved' }}">{{ ucfirst($item->type) }}</span></td>
@@ -46,6 +53,7 @@
                     <td>{{ $item->user->name }}<div class="muted">{{ $item->created_at->diffForHumans() }}</div></td>
                     <td>{{ $item->resolved ? 'Resolved' : 'Open' }}</td>
                     <td>{{ $item->pending_claims > 0 ? $item->pending_claims . ' pending' : '—' }}</td>
+                    <td>{{ $item->wants_guidance ? '🛡️ Yes' : '—' }}</td>
                     <td>
                         <div class="row" style="flex-wrap:nowrap">
                             @if ($item->resolved)
@@ -59,7 +67,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="7" class="empty">No posts match these filters.</td></tr>
+                <tr><td colspan="8" class="empty">No posts match these filters.</td></tr>
             @endforelse
             </tbody>
         </table>

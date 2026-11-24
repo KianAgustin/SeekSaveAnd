@@ -5,6 +5,7 @@
     <h1>Admin dashboard</h1>
     <div class="subnav">
         <a href="{{ route('admin.index') }}">All posts</a>
+        <a href="{{ route('admin.guided') }}">Guided chats</a>
         <a href="{{ route('admin.users') }}" class="on">Users</a>
     </div>
 

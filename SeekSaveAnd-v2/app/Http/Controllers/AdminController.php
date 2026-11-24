@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Claim;
+use App\Models\Conversation;
 use App\Models\Item;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -39,10 +40,47 @@ class AdminController extends Controller
             'Open found' => Item::where('type', 'found')->where('resolved', false)->count(),
             'Resolved' => Item::where('resolved', true)->count(),
             'Pending claims' => Claim::where('status', 'pending')->count(),
+            'Guided chats' => Conversation::where('guided', true)->count(),
             'Students' => User::where('role', 'user')->count(),
         ];
 
         return view('admin.index', compact('items', 'stats', 'status', 'type', 'q'));
+    }
+
+    /** List guided conversations that need admin attention. */
+    public function guided(Request $request)
+    {
+        $conversations = Conversation::with(['item.user', 'user', 'latestMessage'])
+            ->where('guided', true)
+            ->whereHas('item', fn ($i) => $i->where('resolved', false))
+            ->orderByDesc('updated_at')
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('admin.guided', compact('conversations'));
+    }
+
+    /** Set or update meetup schedule for a guided conversation. */
+    public function setSchedule(Request $request, Conversation $conversation): RedirectResponse
+    {
+        abort_unless($request->user()->isAdmin(), 403);
+        abort_unless($conversation->guided, 403, 'Only guided chats can have an admin schedule.');
+
+        $data = $request->validate([
+            'meetup_at' => ['required', 'date'],
+            'meetup_location' => ['required', 'string', 'max:120'],
+            'meetup_notes' => ['nullable', 'string', 'max:500'],
+            'meetup_status' => ['nullable', 'in:proposed,confirmed,completed,cancelled'],
+        ]);
+
+        $conversation->update([
+            'meetup_at' => $data['meetup_at'],
+            'meetup_location' => trim($data['meetup_location']),
+            'meetup_notes' => trim($data['meetup_notes'] ?? ''),
+            'meetup_status' => $data['meetup_status'] ?? 'proposed',
+        ]);
+
+        return back()->with('status', 'Meetup schedule saved.');
     }
 
     public function users(Request $request)

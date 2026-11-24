@@ -11,13 +11,14 @@ class Item extends Model
 {
     protected $fillable = [
         'user_id', 'type', 'title', 'description', 'category', 'location',
-        'photo_path', 'resolved', 'resolved_at',
+        'photo_path', 'wants_guidance', 'resolved', 'resolved_at',
     ];
 
     protected function casts(): array
     {
         return [
             'resolved' => 'boolean',
+            'wants_guidance' => 'boolean',
             'resolved_at' => 'datetime',
         ];
     }

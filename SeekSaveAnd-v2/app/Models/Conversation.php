@@ -9,7 +9,18 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Conversation extends Model
 {
-    protected $fillable = ['item_id', 'user_id'];
+    protected $fillable = [
+        'item_id', 'user_id', 'guided',
+        'meetup_at', 'meetup_location', 'meetup_notes', 'meetup_status',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'guided' => 'boolean',
+            'meetup_at' => 'datetime',
+        ];
+    }
 
     public function item(): BelongsTo
     {
@@ -34,11 +45,26 @@ class Conversation extends Model
 
     public function includes(User $user): bool
     {
+        // Poster, claimer, or any admin (for guided chats) can access
+        if ($user->isAdmin()) {
+            return true;
+        }
+
         return $user->id === $this->user_id || $user->id === $this->item->user_id;
     }
 
     public function otherParty(User $me): User
     {
+        if ($me->isAdmin()) {
+            // Prefer showing the claimer when admin views
+            return $this->user;
+        }
+
         return $me->id === $this->user_id ? $this->item->user : $this->user;
+    }
+
+    public function hasMeetup(): bool
+    {
+        return filled($this->meetup_at) || filled($this->meetup_location);
     }
 }

@@ -31,10 +31,16 @@ class ItemController extends Controller
             })
             ->orderBy('resolved')
             ->latest()
-            ->paginate(12)
+            ->paginate(16)
             ->withQueryString();
 
-        return view('items.index', compact('items', 'type', 'location', 'q'));
+        $locations = collect(config('seeksave.locations'))
+            ->reject(fn ($loc) => $loc === 'Other')
+            ->merge(Item::distinct()->pluck('location'))
+            ->unique()
+            ->values();
+
+        return view('items.index', compact('items', 'type', 'location', 'q', 'locations'));
     }
 
     public function create(Request $request)
@@ -62,10 +68,11 @@ class ItemController extends Controller
         $item = $request->user()->items()->create([
             'type' => $data['type'],
             'title' => trim($data['title']),
-            'category' => $data['category'],
-            'location' => $data['location'],
+            'category' => $this->resolveCategory($data),
+            'location' => $this->resolveLocation($data),
             'description' => $this->description($data),
             'photo_path' => $photoPath,
+            'wants_guidance' => $request->boolean('wants_guidance'),
         ]);
 
         return redirect()->route('items.show', $item)->with('status', 'Your item was posted.');
@@ -82,7 +89,14 @@ class ItemController extends Controller
         $myClaim = $isOwner ? null : $item->claims()->where('user_id', $user->id)->first();
         $claims = $canManage ? $item->claims()->with('user')->latest()->get() : collect();
 
-        return view('items.show', compact('item', 'isOwner', 'canManage', 'isSaved', 'myClaim', 'claims'));
+        // Existing conversation for this user (so UI can show "Open chat" vs form)
+        $myConversation = $isOwner
+            ? null
+            : \App\Models\Conversation::where('item_id', $item->id)->where('user_id', $user->id)->first();
+
+        return view('items.show', compact(
+            'item', 'isOwner', 'canManage', 'isSaved', 'myClaim', 'claims', 'myConversation'
+        ));
     }
 
     public function edit(Request $request, Item $item)
@@ -117,10 +131,11 @@ class ItemController extends Controller
         $item->update([
             'type' => $data['type'],
             'title' => trim($data['title']),
-            'category' => $data['category'],
-            'location' => $data['location'],
+            'category' => $this->resolveCategory($data),
+            'location' => $this->resolveLocation($data),
             'description' => $this->description($data),
             'photo_path' => $photoPath,
+            'wants_guidance' => $request->boolean('wants_guidance'),
         ]);
 
         return redirect()->route('items.show', $item)->with('status', 'Post updated.');
@@ -138,7 +153,6 @@ class ItemController extends Controller
             ->with('status', 'Post deleted.');
     }
 
-    /** The poster or an admin can mark an item resolved. */
     public function resolve(Request $request, Item $item): RedirectResponse
     {
         abort_unless($item->canBeManagedBy($request->user()), 403, 'Only the poster or an admin can mark this item resolved.');
@@ -150,7 +164,6 @@ class ItemController extends Controller
         return back()->with('status', 'Item marked as resolved.');
     }
 
-    /** Admins can reopen an item that was resolved by mistake. */
     public function reopen(Request $request, Item $item): RedirectResponse
     {
         abort_unless($request->user()->isAdmin(), 403);
@@ -171,19 +184,45 @@ class ItemController extends Controller
     {
         return $request->validate([
             'type' => ['required', Rule::in(['lost', 'found'])],
-            'title' => ['required', 'string', 'max:100'],
+            'title' => ['required', 'string', 'min:3', 'max:100'],
             'category' => ['required', Rule::in(config('seeksave.categories'))],
+            'other_category' => ['nullable', 'required_if:category,Other', 'string', 'min:2', 'max:50', 'regex:/^[a-zA-Z0-9\s\-\/&]+$/'],
             'location' => ['required', Rule::in(config('seeksave.locations'))],
+            'other_location' => ['nullable', 'required_if:location,Other', 'string', 'min:2', 'max:80', 'regex:/^[a-zA-Z0-9\s\-\/.,()]+$/'],
             'description' => ['nullable', 'string', 'max:1000'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:8192'],
+            'wants_guidance' => ['nullable', 'boolean'],
         ], [
+            'type.required' => 'Please choose whether you lost or found the item.',
             'title.required' => 'Please add a title.',
-            'location.required' => 'Please choose a location.',
+            'title.min' => 'Title must be at least 3 characters.',
             'category.required' => 'Please choose a category.',
+            'other_category.required_if' => 'Please specify the custom category.',
+            'other_category.min' => 'Custom category must be at least 2 characters.',
+            'other_category.regex' => 'Custom category contains invalid characters.',
+            'location.required' => 'Please choose a location.',
+            'other_location.required_if' => 'Please specify the custom location.',
+            'other_location.min' => 'Custom location must be at least 2 characters.',
+            'other_location.regex' => 'Custom location contains invalid characters.',
             'photo.image' => 'The photo must be an image (JPG, PNG or WEBP).',
+            'photo.mimes' => 'Only JPG, PNG, and WEBP images are allowed.',
             'photo.max' => 'The photo must be 8 MB or smaller.',
             'photo.uploaded' => 'The photo is too large for the server. Use a smaller photo (under 8 MB).',
         ]);
+    }
+
+    private function resolveCategory(array $data): string
+    {
+        return $data['category'] === 'Other'
+            ? trim($data['other_category'])
+            : $data['category'];
+    }
+
+    private function resolveLocation(array $data): string
+    {
+        return $data['location'] === 'Other'
+            ? trim($data['other_location'])
+            : $data['location'];
     }
 
     private function description(array $data): string
